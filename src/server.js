@@ -1,11 +1,13 @@
 'use strict';
 
+const Boom = require('boom');
+const SecurityManager = require('./libs/securityManager');
 const Plugins = require('./config/plugins');
 const Config = require('./config/config');
 const Hapi = require('hapi');
-const UserService = require('./libs/log/logService');
-const SecurityManager = require('./managers/securityManager');
 const Routes = require('./routes');
+
+const UserRepository = require('./resources/user/repository');
 
 const server = new Hapi.Server();
 
@@ -27,38 +29,59 @@ server.auth.strategy('token', 'jwt', {
     validateFunc: (request, decodedData, callback) => {
 
         try {
-            const decryptedData = SecurityManager.decrypt(decodedData.user);
+            const userId = SecurityManager.decrypt(decodedData.encryptedUserId);
 
-            UserService.get(decryptedData.userId)
-                .then((user) => {
+            const filter = {
+                _id: userId
+            };
 
-                    callback(null, true, user);
-                })
-                .catch((error) => {
+            UserRepository.findSingle(filter)
+              .then((user) => {
 
-                    callback(error, false, null);
-                });
+                  if (!user) {
+                      return callback(Boom.notFound('User not found'), false, null);
+                  }
+
+                  callback(null, true, { userId: userId });
+              });
         }
         catch (error) {
             callback(error, false, null);
         }
     },
     verifyOptions: {
-        maxAge: Config.security.maxAge,
+        maxAge: Config.security.tokenMaxAge,
         algorithms: [
             Config.security.algorithm
         ]
     }
 });
 
-_.each(Routes.getRoutes(), (route) => {
+server.ext('onPreResponse', (request, reply) => {
+
+    const response = request.response;
+    const statusCode = response.statusCode || response.output.statusCode;
+
+    if (statusCode < 400 || Config.isEnvironment('test')) {
+        return reply.continue();
+    }
+
+    console.log(response);
+    return reply.continue();
+});
+
+Routes.getRoutes().forEach((route) => {
 
     server.route(route);
 });
 
 const start = () => {
 
-    server.start(() => {
+    server.start((err) => {
+
+        if (err) {
+            console.log(err);
+        }
 
         server.log('info', 'server running at: ' + server.info.uri + ' using environment: ' + Config.getEnvironment());
     });

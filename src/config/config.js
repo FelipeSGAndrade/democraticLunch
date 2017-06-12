@@ -16,7 +16,7 @@ const database = {
 const security = {
     key: process.env.app_security_key || 'myKey',
     tokenMaxAge: process.env.app_security_token_max_age || '1y',
-    issuer: process.env.app_security_issuer || 'c4fmcommerce',
+    issuer: process.env.app_security_issuer || 'api',
     algorithm: process.env.app_security_algorithm || 'HS384',
     cipher_algorithm: process.env.app_security_cipher_algorithm || 'aes256',
     cipher_key: process.env.app_security_cipher_key || 'ce694086164d19ddf6b856dbd28a97886178cbb3cd3dcfd52da263846b3f341e465230ae6371554f28384c94c5ededdfdff18b0d1e8209312ff536fd01ddeb9'

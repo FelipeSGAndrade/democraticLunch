@@ -1,0 +1,9 @@
+{
+  "extends": "hapi",
+  "rules": {
+    "object-shorthand": [
+      "error",
+      "never"
+    ]
+  }
+}

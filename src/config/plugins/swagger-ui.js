@@ -3,7 +3,7 @@
 module.exports = {
     register: require('hapi-swaggered-ui'),
     options: {
-        title: 'Wishlist Documentation',
+        title: 'Democratic Lunch Documentation',
         path: '/docs',
         swaggerOptions: {
             validatorUrl: null
