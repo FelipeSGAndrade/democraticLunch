@@ -17,8 +17,12 @@ For testing, you need to have everything installed as above and run the command
 
 ## Usage
 There is a automatically generated swagger running on endpoint **/docs**. Also, there is a postman collection in the root directory that can be imported and contains examples.  
+
 The **/startMock** endpoint will insert some data on the lists used as database (as the instructions said it could be mocked).  
+
 I didn't want to make a user registration page, so, if the user e-mail is not found, a new user is created.
+
+There is and endpoint for closing pools, cause this solution can be more flexible.
 
 ## Notes  
 
