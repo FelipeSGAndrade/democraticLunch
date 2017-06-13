@@ -18,7 +18,7 @@ For testing, you need to have everything installed as above and run the command
 After running the full test, a report about coverage can be found at **/reports/coverage/index.html**  
 
 ## Usage
-There is a automatically generated swagger running on endpoint **/docs**. Also, there is a postman collection in the root directory that can be imported and contains examples.  
+There is an automatically generated swagger running on endpoint **/docs**. Also, there is a postman collection in the root directory that can be imported and contains examples.  
 
 The **/startMock** endpoint will insert some data on the lists used as database (as the instructions said it could be mocked).  
 
