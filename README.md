@@ -22,7 +22,7 @@ The **/startMock** endpoint will insert some data on the lists used as database 
 
 I didn't want to make a user registration page, so, if the user e-mail is not found, a new user is created.
 
-There is and endpoint for closing pools, cause this solution can be more flexible.
+There is an endpoint for closing pools, cause this solution can be more flexible.
 
 ## Notes  
 
