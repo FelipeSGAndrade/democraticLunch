@@ -15,7 +15,7 @@ The next step ir startin the server
 For testing, you need to have everything installed as above and run the command  
 **npm test**  
 
-After running the full test, a report about coverage can be found at /reports/coverage/index.html  
+After running the full test, a report about coverage can be found at **/reports/coverage/index.html**  
 
 ## Usage
 There is a automatically generated swagger running on endpoint **/docs**. Also, there is a postman collection in the root directory that can be imported and contains examples.  
