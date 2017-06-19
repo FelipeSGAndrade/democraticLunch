@@ -9,7 +9,7 @@ const OptionsViewModel = require('../option/optionViewModel');
 const params = Joi.object({
     date: Joi.date().format('YYYYMMDD').raw().required().default(Moment().format('YYYYMMDD'))
 }).meta({
-    className: 'Get Pool Params'
+    className: 'Get Poll Params'
 });
 
 const voteModel = Joi.object({
@@ -26,7 +26,7 @@ const response = Joi.object({
     winner: voteModel.allow(null),
     canVote: Joi.boolean().required()
 }).meta({
-    className: 'Get Pool Response'
+    className: 'Get Poll Response'
 });
 
 const toViewModel = (result) => {

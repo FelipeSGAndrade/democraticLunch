@@ -15,7 +15,7 @@ const OptionRepository = require('../../src/resources/option/repository');
 let token;
 let options;
 
-lab.experiment('Pool route', () => {
+lab.experiment('Poll route', () => {
 
     lab.beforeEach(() => {
 
@@ -42,12 +42,12 @@ lab.experiment('Pool route', () => {
             });
     });
 
-    lab.test('Should return pool for date', () => {
+    lab.test('Should return poll for date', () => {
 
         const date = Moment().format('YYYYMMDD');
         const routeOptions = {
             method: 'GET',
-            url: `/v1/pools/${date}`,
+            url: `/v1/polls/${date}`,
             headers: {
                 authorization: `bearer ${token}`
             }
@@ -60,12 +60,12 @@ lab.experiment('Pool route', () => {
             });
     });
 
-    lab.test('Should vote on pool', () => {
+    lab.test('Should vote on poll', () => {
 
         const date = Moment().format('YYYYMMDD');
         const routeOptions = {
             method: 'POST',
-            url: `/v1/pools/${date}/votes/${options[0]._id}`,
+            url: `/v1/polls/${date}/votes/${options[0]._id}`,
             headers: {
                 authorization: `bearer ${token}`
             }
@@ -78,12 +78,12 @@ lab.experiment('Pool route', () => {
             });
     });
 
-    lab.test('Should close pool', () => {
+    lab.test('Should close poll', () => {
 
         const date = Moment().format('YYYYMMDD');
         const routeOptions = {
             method: 'POST',
-            url: `/v1/pools/${date}/close`,
+            url: `/v1/polls/${date}/close`,
             headers: {
                 authorization: `bearer ${token}`
             }

@@ -5,33 +5,33 @@ const Promise = require('bluebird');
 const Moment = require('moment');
 
 let lastIndex = 0;
-let poolList = [];
+let pollList = [];
 
 const find = (filter) => {
 
-    return Promise.resolve(_.filter(poolList, filter));
+    return Promise.resolve(_.filter(pollList, filter));
 };
 
 const findSingle = (filter) => {
 
-    return Promise.resolve(_.find(poolList, filter));
+    return Promise.resolve(_.find(pollList, filter));
 };
 
-const update = (pool) => {
+const update = (poll) => {
 
-    const index = _.findIndex(poolList, { _id: pool._id });
+    const index = _.findIndex(pollList, { _id: poll._id });
 
     if (index === -1) {
         return Promise.resolve(null);
     }
 
-    poolList[index] = pool;
-    return Promise.resolve(pool);
+    pollList[index] = poll;
+    return Promise.resolve(poll);
 };
 
 const create = (date) => {
 
-    const pool = {
+    const poll = {
         _id: lastIndex++,
         date: date,
         week: Moment(date).isoWeek(),
@@ -41,13 +41,13 @@ const create = (date) => {
         closed: false
     };
 
-    poolList.push(pool);
-    return Promise.resolve(pool);
+    pollList.push(poll);
+    return Promise.resolve(poll);
 };
 
 const clear = () => {
 
-    poolList = [];
+    pollList = [];
     lastIndex = 0;
 
     return Promise.resolve();

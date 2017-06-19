@@ -24,7 +24,7 @@ The **/startMock** endpoint will insert some data on the lists used as database 
 
 I didn't want to make a user registration page, so, if the user e-mail is not found, a new user is created.
 
-There is an endpoint for closing pools, cause this solution can be more flexible.
+There is an endpoint for closing polls, cause this solution can be more flexible.
 
 ## Notes  
 
@@ -36,7 +36,7 @@ I made this code in a rush, so there is a lot to improve. The first thing I woul
 
 Unfortunately, I didn't have time to make a front-end, so that is needed also.
 
-There is a lot of room for improvements, one I would like to make is the possibility of writing commentaries on pools, so that workers can convince people to vote on a particular restaurant.
+There is a lot of room for improvements, one I would like to make is the possibility of writing commentaries on polls, so that workers can convince people to vote on a particular restaurant.
 
 Anyway, **hope you like it!**
 

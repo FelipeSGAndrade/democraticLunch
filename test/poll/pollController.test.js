@@ -8,16 +8,16 @@ const Lab = require('lab');
 const lab = exports.lab = Lab.script();
 const expect = Code.expect;
 
-const PoolController = require('../../src/resources/pool/controller');
-const PoolRepository = require('../../src/resources/pool/repository');
+const PollController = require('../../src/resources/poll/controller');
+const PollRepository = require('../../src/resources/poll/repository');
 const OptionRepository = require('../../src/resources/option/repository');
 const sandbox = Sinon.sandbox.create();
 
-lab.experiment('Pool controller', () => {
+lab.experiment('Poll controller', () => {
 
     lab.beforeEach((done) => {
 
-        sandbox.stub(PoolRepository);
+        sandbox.stub(PollRepository);
         sandbox.stub(OptionRepository);
         done();
     });
@@ -28,16 +28,16 @@ lab.experiment('Pool controller', () => {
         done();
     });
 
-    lab.test('Should return pool for date', () => {
+    lab.test('Should return poll for date', () => {
 
         const userId = 1;
         const date = Moment().format('YYYYMMDD');
 
-        const expectedPoolFilter = {
+        const expectedPollFilter = {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -47,8 +47,8 @@ lab.experiment('Pool controller', () => {
             closed: false
         };
 
-        const expectedWeekPoolFilter = {
-            week: pool.week,
+        const expectedWeekPollFilter = {
+            week: poll.week,
             closed: true
         };
 
@@ -61,14 +61,14 @@ lab.experiment('Pool controller', () => {
         const expectedResult = Object.assign({
             canVote: canVote,
             options: options
-        }, pool);
+        }, poll);
 
-        const poolFindCall = PoolRepository.findSingle
-            .withArgs(expectedPoolFilter)
-            .returns(Promise.resolve(pool));
+        const pollFindCall = PollRepository.findSingle
+            .withArgs(expectedPollFilter)
+            .returns(Promise.resolve(poll));
 
-        const poolWeekFindCall = PoolRepository.find
-            .withArgs(expectedWeekPoolFilter)
+        const pollWeekFindCall = PollRepository.find
+            .withArgs(expectedWeekPollFilter)
             .returns(Promise.resolve([]));
 
         const optionFindCall = OptionRepository.getAll
@@ -85,17 +85,17 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.getPool(request)
+        return PollController.getPoll(request)
             .then((result) => {
 
-                expect(poolFindCall.calledOnce).to.be.true();
-                expect(poolWeekFindCall.calledOnce).to.be.true();
+                expect(pollFindCall.calledOnce).to.be.true();
+                expect(pollWeekFindCall.calledOnce).to.be.true();
                 expect(optionFindCall.calledOnce).to.be.true();
                 expect(result).to.equal(expectedResult);
             });
     });
 
-    lab.test('Should return new pool for date when not existing', () => {
+    lab.test('Should return new poll for date when not existing', () => {
 
         const userId = 1;
         const date = Moment().format('YYYYMMDD');
@@ -104,7 +104,7 @@ lab.experiment('Pool controller', () => {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -118,17 +118,17 @@ lab.experiment('Pool controller', () => {
         const expectedResult = Object.assign({
             canVote: canVote,
             options: []
-        }, pool);
+        }, poll);
 
-        const findCall = PoolRepository.findSingle
+        const findCall = PollRepository.findSingle
             .withArgs(expectedFilter)
             .returns(Promise.resolve(null));
 
-        const createCall = PoolRepository.create
+        const createCall = PollRepository.create
             .withArgs(date)
-            .returns(Promise.resolve(pool));
+            .returns(Promise.resolve(poll));
 
-        const poolWeekFindCall = PoolRepository.find
+        const pollWeekFindCall = PollRepository.find
             .returns(Promise.resolve([]));
 
         const optionFindCall = OptionRepository.getAll
@@ -145,12 +145,12 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.getPool(request)
+        return PollController.getPoll(request)
             .then((result) => {
 
                 expect(findCall.calledOnce).to.be.true();
                 expect(createCall.calledOnce).to.be.true();
-                expect(poolWeekFindCall.calledOnce).to.be.true();
+                expect(pollWeekFindCall.calledOnce).to.be.true();
                 expect(optionFindCall.calledOnce).to.be.true();
                 expect(result).to.equal(expectedResult);
             });
@@ -162,11 +162,11 @@ lab.experiment('Pool controller', () => {
         const yesterday = Moment().add(-1, 'day').format('YYYYMMDD');
         const date = Moment().format('YYYYMMDD');
 
-        const expectedPoolFilter = {
+        const expectedPollFilter = {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -176,8 +176,8 @@ lab.experiment('Pool controller', () => {
             closed: false
         };
 
-        const expectedWeekPoolFilter = {
-            week: pool.week,
+        const expectedWeekPollFilter = {
+            week: poll.week,
             closed: true
         };
 
@@ -189,10 +189,10 @@ lab.experiment('Pool controller', () => {
             name: 'teste2'
         }];
 
-        const existingPools = [{
+        const existingPolls = [{
             _id: 1,
             date: yesterday,
-            week: pool.week, //guarantee same week
+            week: poll.week, //guarantee same week
             votes: [],
             usersVoted: [],
             winner: {
@@ -211,15 +211,15 @@ lab.experiment('Pool controller', () => {
         const expectedResult = Object.assign({
             canVote: canVote,
             options: expectedOptions
-        }, pool);
+        }, poll);
 
-        const poolFindCall = PoolRepository.findSingle
-            .withArgs(expectedPoolFilter)
-            .returns(Promise.resolve(pool));
+        const pollFindCall = PollRepository.findSingle
+            .withArgs(expectedPollFilter)
+            .returns(Promise.resolve(poll));
 
-        const poolWeekFindCall = PoolRepository.find
-            .withArgs(expectedWeekPoolFilter)
-            .returns(Promise.resolve(existingPools));
+        const pollWeekFindCall = PollRepository.find
+            .withArgs(expectedWeekPollFilter)
+            .returns(Promise.resolve(existingPolls));
 
         const optionFindCall = OptionRepository.getAll
             .returns(options);
@@ -235,17 +235,17 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.getPool(request)
+        return PollController.getPoll(request)
             .then((result) => {
 
-                expect(poolFindCall.calledOnce).to.be.true();
-                expect(poolWeekFindCall.calledOnce).to.be.true();
+                expect(pollFindCall.calledOnce).to.be.true();
+                expect(pollWeekFindCall.calledOnce).to.be.true();
                 expect(optionFindCall.calledOnce).to.be.true();
                 expect(result).to.equal(expectedResult);
             });
     });
 
-    lab.test('Should return canVote = false and empty options for closed pool', () => {
+    lab.test('Should return canVote = false and empty options for closed poll', () => {
 
         const userId = 1;
         const date = Moment().format('YYYYMMDD');
@@ -254,7 +254,7 @@ lab.experiment('Pool controller', () => {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -268,11 +268,11 @@ lab.experiment('Pool controller', () => {
         const expectedResult = Object.assign({
             canVote: canVote,
             options: []
-        }, pool);
+        }, poll);
 
-        const repositoryCall = PoolRepository.findSingle
+        const repositoryCall = PollRepository.findSingle
             .withArgs(expectedFilter)
-            .returns(Promise.resolve(pool));
+            .returns(Promise.resolve(poll));
 
         const request = {
             auth: {
@@ -285,7 +285,7 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.getPool(request)
+        return PollController.getPoll(request)
             .then((result) => {
 
                 expect(repositoryCall.calledOnce).to.be.true();
@@ -302,7 +302,7 @@ lab.experiment('Pool controller', () => {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -316,13 +316,13 @@ lab.experiment('Pool controller', () => {
         const expectedResult = Object.assign({
             canVote: canVote,
             options: []
-        }, pool);
+        }, poll);
 
-        const repositoryCall = PoolRepository.findSingle
+        const repositoryCall = PollRepository.findSingle
             .withArgs(expectedFilter)
-            .returns(Promise.resolve(pool));
+            .returns(Promise.resolve(poll));
 
-        const poolWeekFindCall = PoolRepository.find
+        const pollWeekFindCall = PollRepository.find
             .returns(Promise.resolve([]));
 
         const optionFindCall = OptionRepository.getAll
@@ -339,27 +339,27 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.getPool(request)
+        return PollController.getPoll(request)
             .then((result) => {
 
                 expect(repositoryCall.calledOnce).to.be.true();
-                expect(poolWeekFindCall.calledOnce).to.be.true();
+                expect(pollWeekFindCall.calledOnce).to.be.true();
                 expect(optionFindCall.calledOnce).to.be.true();
                 expect(result).to.equal(expectedResult);
             });
     });
 
-    lab.test('Should update pool votes', () => {
+    lab.test('Should update poll votes', () => {
 
         const userId = 1;
         const date = Moment().format('YYYYMMDD');
         const optionId = 2;
 
-        const expectedPoolFilter = {
+        const expectedPollFilter = {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -374,33 +374,33 @@ lab.experiment('Pool controller', () => {
             name: 'option name'
         };
 
-        const updatedPool = _.cloneDeep(pool);
-        updatedPool.votes.push({
+        const updatedPoll = _.cloneDeep(poll);
+        updatedPoll.votes.push({
             optionId: optionId,
             optionName: option.name,
             votes: 1
         });
-        updatedPool.usersVoted.push(userId);
+        updatedPoll.usersVoted.push(userId);
 
         const canVote = false;
         const expectedResult = Object.assign({
             canVote: canVote,
             options: [option]
-        }, updatedPool);
+        }, updatedPoll);
 
-        const poolFindCall = PoolRepository.findSingle
-            .withArgs(expectedPoolFilter)
-            .returns(Promise.resolve(pool));
+        const pollFindCall = PollRepository.findSingle
+            .withArgs(expectedPollFilter)
+            .returns(Promise.resolve(poll));
 
         const optionGetByIdCall = OptionRepository.getById
             .withArgs(optionId)
             .returns(Promise.resolve(option));
 
-        const poolUpdateCall = PoolRepository.update
-            .withArgs(updatedPool)
-            .returns(Promise.resolve(updatedPool));
+        const pollUpdateCall = PollRepository.update
+            .withArgs(updatedPoll)
+            .returns(Promise.resolve(updatedPoll));
 
-        const poolWeekFindCall = PoolRepository.find
+        const pollWeekFindCall = PollRepository.find
             .returns(Promise.resolve([]));
 
         const optionFindCall = OptionRepository.getAll
@@ -418,13 +418,13 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.poolVote(request)
+        return PollController.pollVote(request)
             .then((result) => {
 
-                expect(poolFindCall.calledOnce).to.be.true();
+                expect(pollFindCall.calledOnce).to.be.true();
                 expect(optionGetByIdCall.calledOnce).to.be.true();
-                expect(poolUpdateCall.calledOnce).to.be.true();
-                expect(poolWeekFindCall.calledTwice).to.be.true();
+                expect(pollUpdateCall.calledOnce).to.be.true();
+                expect(pollWeekFindCall.calledTwice).to.be.true();
                 expect(optionFindCall.calledTwice).to.be.true();
                 expect(result).to.equal(expectedResult);
             });
@@ -436,11 +436,11 @@ lab.experiment('Pool controller', () => {
         const date = Moment().format('YYYYMMDD');
         const optionId = 2;
 
-        const expectedPoolFilter = {
+        const expectedPollFilter = {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -450,15 +450,15 @@ lab.experiment('Pool controller', () => {
             closed: false
         };
 
-        const poolFindCall = PoolRepository.findSingle
-            .withArgs(expectedPoolFilter)
-            .returns(Promise.resolve(pool));
+        const pollFindCall = PollRepository.findSingle
+            .withArgs(expectedPollFilter)
+            .returns(Promise.resolve(poll));
 
         const optionGetByIdCall = OptionRepository.getById
             .withArgs(optionId)
             .returns(Promise.resolve(null));
 
-        const poolWeekFindCall = PoolRepository.find
+        const pollWeekFindCall = PollRepository.find
             .returns(Promise.resolve([]));
 
         const optionFindCall = OptionRepository.getAll
@@ -476,30 +476,30 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.poolVote(request)
+        return PollController.pollVote(request)
             .then(() => Code.fail('expecting and error'))
             .catch((err) => {
 
-                expect(poolFindCall.calledOnce).to.be.true();
+                expect(pollFindCall.calledOnce).to.be.true();
                 expect(optionGetByIdCall.calledOnce).to.be.true();
-                expect(poolWeekFindCall.calledOnce).to.be.true();
+                expect(pollWeekFindCall.calledOnce).to.be.true();
                 expect(optionFindCall.calledOnce).to.be.true();
                 expect(err.isBoom).to.be.true();
                 expect(err.output.statusCode).to.equal(404);
             });
     });
 
-    lab.test('Should throw a bad request if user already voted on pool', () => {
+    lab.test('Should throw a bad request if user already voted on poll', () => {
 
         const userId = 1;
         const date = Moment().format('YYYYMMDD');
         const optionId = 2;
 
-        const expectedPoolFilter = {
+        const expectedPollFilter = {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -509,9 +509,9 @@ lab.experiment('Pool controller', () => {
             closed: false
         };
 
-        const poolFindCall = PoolRepository.findSingle
-            .withArgs(expectedPoolFilter)
-            .returns(Promise.resolve(pool));
+        const pollFindCall = PollRepository.findSingle
+            .withArgs(expectedPollFilter)
+            .returns(Promise.resolve(poll));
 
         const request = {
             auth: {
@@ -525,27 +525,27 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.poolVote(request)
+        return PollController.pollVote(request)
             .then(() => Code.fail('expecting and error'))
             .catch((err) => {
 
-                expect(poolFindCall.calledOnce).to.be.true();
+                expect(pollFindCall.calledOnce).to.be.true();
                 expect(err.isBoom).to.be.true();
                 expect(err.output.statusCode).to.equal(400);
             });
     });
 
-    lab.test('Should throw a bad request if pool is closed', () => {
+    lab.test('Should throw a bad request if poll is closed', () => {
 
         const userId = 1;
         const date = Moment().format('YYYYMMDD');
         const optionId = 2;
 
-        const expectedPoolFilter = {
+        const expectedPollFilter = {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -555,9 +555,9 @@ lab.experiment('Pool controller', () => {
             closed: true
         };
 
-        const poolFindCall = PoolRepository.findSingle
-            .withArgs(expectedPoolFilter)
-            .returns(Promise.resolve(pool));
+        const pollFindCall = PollRepository.findSingle
+            .withArgs(expectedPollFilter)
+            .returns(Promise.resolve(poll));
 
         const request = {
             auth: {
@@ -571,27 +571,27 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.poolVote(request)
+        return PollController.pollVote(request)
             .then(() => Code.fail('expecting and error'))
             .catch((err) => {
 
-                expect(poolFindCall.calledOnce).to.be.true();
+                expect(pollFindCall.calledOnce).to.be.true();
                 expect(err.isBoom).to.be.true();
                 expect(err.output.statusCode).to.equal(400);
             });
     });
 
-    lab.test('Should throw a bad request if option is not valid for pool', () => {
+    lab.test('Should throw a bad request if option is not valid for poll', () => {
 
         const userId = 1;
         const date = Moment().format('YYYYMMDD');
         const optionId = 2;
 
-        const expectedPoolFilter = {
+        const expectedPollFilter = {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -606,15 +606,15 @@ lab.experiment('Pool controller', () => {
             name: 'optionName'
         };
 
-        const poolFindCall = PoolRepository.findSingle
-            .withArgs(expectedPoolFilter)
-            .returns(Promise.resolve(pool));
+        const pollFindCall = PollRepository.findSingle
+            .withArgs(expectedPollFilter)
+            .returns(Promise.resolve(poll));
 
         const optionFindCall = OptionRepository.getById
             .withArgs(optionId)
             .returns(Promise.resolve(option));
 
-        const poolWeekFindCall = PoolRepository.find
+        const pollWeekFindCall = PollRepository.find
             .returns(Promise.resolve([]));
 
         const optionGetAllCall = OptionRepository.getAll
@@ -632,29 +632,29 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.poolVote(request)
+        return PollController.pollVote(request)
             .then(() => Code.fail('expecting and error'))
             .catch((err) => {
 
-                expect(poolFindCall.calledOnce).to.be.true();
+                expect(pollFindCall.calledOnce).to.be.true();
                 expect(optionFindCall.calledOnce).to.be.true();
-                expect(poolWeekFindCall.calledOnce).to.be.true();
+                expect(pollWeekFindCall.calledOnce).to.be.true();
                 expect(optionGetAllCall.calledOnce).to.be.true();
                 expect(err.isBoom).to.be.true();
                 expect(err.output.statusCode).to.equal(400);
             });
     });
 
-    lab.test('Should close and update pool', () => {
+    lab.test('Should close and update poll', () => {
 
         const userId = 1;
         const date = Moment().format('YYYYMMDD');
 
-        const expectedPoolFilter = {
+        const expectedPollFilter = {
             date: date
         };
 
-        const pool = {
+        const poll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -672,23 +672,23 @@ lab.experiment('Pool controller', () => {
             closed: false
         };
 
-        const updatedPool = _.cloneDeep(pool);
-        updatedPool.closed = true;
-        updatedPool.winner = pool.votes[1];
+        const updatedPoll = _.cloneDeep(poll);
+        updatedPoll.closed = true;
+        updatedPoll.winner = poll.votes[1];
 
         const canVote = false;
         const expectedResult = Object.assign({
             canVote: canVote,
             options: []
-        }, updatedPool);
+        }, updatedPoll);
 
-        const poolFindCall = PoolRepository.findSingle
-            .withArgs(expectedPoolFilter)
-            .returns(Promise.resolve(pool));
+        const pollFindCall = PollRepository.findSingle
+            .withArgs(expectedPollFilter)
+            .returns(Promise.resolve(poll));
 
-        const poolUpdateCall = PoolRepository.update
-            .withArgs(updatedPool)
-            .returns(Promise.resolve(updatedPool));
+        const pollUpdateCall = PollRepository.update
+            .withArgs(updatedPoll)
+            .returns(Promise.resolve(updatedPoll));
 
         const request = {
             auth: {
@@ -701,11 +701,11 @@ lab.experiment('Pool controller', () => {
             }
         };
 
-        return PoolController.closePool(request)
+        return PollController.closePoll(request)
             .then((result) => {
 
-                expect(poolFindCall.calledOnce).to.be.true();
-                expect(poolUpdateCall.calledOnce).to.be.true();
+                expect(pollFindCall.calledOnce).to.be.true();
+                expect(pollUpdateCall.calledOnce).to.be.true();
                 expect(result).to.equal(expectedResult);
             });
     });
