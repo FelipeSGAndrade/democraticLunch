@@ -30,7 +30,7 @@ There is an endpoint for closing polls, cause this solution can be more flexible
 
 I try to make things in the easiest way of delivering value, fast and easy to understand. That is why I chose Hapi framework, as it has lots of straightforward implementations like swagger automation and Joi for contract validation.  
 
-I tend to follow patterns about coding style that I find on projects and, when suitable, propose improvements. Because of my latest experiences with node, the architecture of this application is the one I've got to work better till now.
+I tend to follow patterns about coding style that I find on projects and, when suitable, propose improvements. Because of my latest experiences with node, the architecture of this application is the one I've got to work better till now. There is no service layer cause this would introduce too many layers unecessarily, although I see no problem about calling the controllers as "service" instead, as the routes define pretty much what a controller would do.
 
 I made this code in a rush, so there is a lot to improve. The first thing I would change would be the tests, they can get a lot simpler by creating default stubs for expected responses. Of course the application needs a database as soon as possible, and the repository files could be replaced for that purpose.  
 
