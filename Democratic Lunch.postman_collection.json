@@ -61,9 +61,9 @@
 			"response": []
 		},
 		{
-			"name": "Get Pool",
+			"name": "Get Poll",
 			"request": {
-				"url": "{{base}}/v1/pools/{{date}}",
+				"url": "{{base}}/v1/polls/{{date}}",
 				"method": "GET",
 				"header": [
 					{
@@ -80,7 +80,7 @@
 		{
 			"name": "Vote",
 			"request": {
-				"url": "{{base}}/v1/pools/{{date}}/votes/4",
+				"url": "{{base}}/v1/polls/{{date}}/votes/4",
 				"method": "POST",
 				"header": [
 					{
@@ -95,9 +95,9 @@
 			"response": []
 		},
 		{
-			"name": "Close Pool",
+			"name": "Close Poll",
 			"request": {
-				"url": "{{base}}/v1/pools/{{date}}/close",
+				"url": "{{base}}/v1/polls/{{date}}/close",
 				"method": "POST",
 				"header": [
 					{

@@ -10,8 +10,8 @@ module.exports = {
             name: 'user',
             description: 'User and Authentication'
         },{
-            name: 'pool',
-            description: 'Pool management'
+            name: 'poll',
+            description: 'Poll management'
         },{
             name: 'option',
             description: 'Option management'

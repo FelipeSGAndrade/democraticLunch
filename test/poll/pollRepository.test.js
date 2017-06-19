@@ -6,16 +6,16 @@ const Lab = require('lab');
 const lab = exports.lab = Lab.script();
 const expect = Code.expect;
 
-const PoolRepository = require('../../src/resources/pool/repository');
+const PollRepository = require('../../src/resources/poll/repository');
 
-lab.experiment('Pool repository', () => {
+lab.experiment('Poll repository', () => {
 
     lab.afterEach(() => {
 
-        return PoolRepository.clear();
+        return PollRepository.clear();
     });
 
-    lab.test('Should create and return single pool for date', () => {
+    lab.test('Should create and return single poll for date', () => {
 
         const date = Moment().format('YYYYMMDD');
 
@@ -33,15 +33,15 @@ lab.experiment('Pool repository', () => {
             date: date
         };
 
-        return PoolRepository.create(date)
-            .then(() => PoolRepository.findSingle(filter))
+        return PollRepository.create(date)
+            .then(() => PollRepository.findSingle(filter))
             .then((result) => {
 
                 expect(result).to.equal(expectedResult);
             });
     });
 
-    lab.test('Should return pools for date', () => {
+    lab.test('Should return polls for date', () => {
 
         const date = Moment().format('YYYYMMDD');
 
@@ -59,19 +59,19 @@ lab.experiment('Pool repository', () => {
             date: date
         };
 
-        return PoolRepository.create(date)
-            .then(() => PoolRepository.find(filter))
+        return PollRepository.create(date)
+            .then(() => PollRepository.find(filter))
             .then((result) => {
 
                 expect(result).to.equal(expectedResult);
             });
     });
 
-    lab.test('Should update pool', () => {
+    lab.test('Should update poll', () => {
 
         const date = Moment().format('YYYYMMDD');
 
-        const updatedPool = {
+        const updatedPoll = {
             _id: 0,
             date: date,
             week: Moment(date).isoWeek(),
@@ -93,12 +93,12 @@ lab.experiment('Pool repository', () => {
             date: date
         };
 
-        return PoolRepository.create(date)
-            .then(() => PoolRepository.update(updatedPool))
-            .then(() => PoolRepository.findSingle(filter))
+        return PollRepository.create(date)
+            .then(() => PollRepository.update(updatedPoll))
+            .then(() => PollRepository.findSingle(filter))
             .then((result) => {
 
-                expect(result).to.equal(updatedPool);
+                expect(result).to.equal(updatedPoll);
             });
     });
 });

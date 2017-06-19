@@ -2,44 +2,44 @@
 
 const Controller = require('./controller');
 const AuthorizationViewModel = require('../user/authorizationViewModel');
-const PoolViewModel = require('./poolViewModel');
+const PollViewModel = require('./pollViewModel');
 const VoteViewModel = require('./voteViewModel');
 
-const getPool = {
-    path: '/v1/pools/{date}',
+const getPoll = {
+    path: '/v1/polls/{date}',
     method: 'GET',
     config: {
         auth: 'token',
-        tags: ['api', 'pool'],
-        description: 'Get pool by date',
-        notes: 'Get pool by date',
+        tags: ['api', 'poll'],
+        description: 'Get poll by date',
+        notes: 'Get poll by date',
         handler: (request, reply) => {
 
-            Controller.getPool(request)
-              .then((result) => reply(PoolViewModel.toViewModel(result)))
+            Controller.getPoll(request)
+              .then((result) => reply(PollViewModel.toViewModel(result)))
               .catch((err) => reply(err));
         },
         validate: {
             headers: AuthorizationViewModel.header,
-            params: PoolViewModel.params
+            params: PollViewModel.params
         },
         response: {
-            schema: PoolViewModel.response
+            schema: PollViewModel.response
         }
     }
 };
 
 const vote = {
-    path: '/v1/pools/{date}/votes/{optionId}',
+    path: '/v1/polls/{date}/votes/{optionId}',
     method: 'POST',
     config: {
         auth: 'token',
-        tags: ['api', 'pool'],
-        description: 'Vote on a pool by date and option',
-        notes: 'Vote on a pool by date and option',
+        tags: ['api', 'poll'],
+        description: 'Vote on a poll by date and option',
+        notes: 'Vote on a poll by date and option',
         handler: (request, reply) => {
 
-            Controller.poolVote(request)
+            Controller.pollVote(request)
               .then((result) => reply(VoteViewModel.toViewModel(result)))
               .catch((err) => reply(err));
         },
@@ -53,34 +53,34 @@ const vote = {
     }
 };
 
-const closePool = {
-    path: '/v1/pools/{date}/close',
+const closePoll = {
+    path: '/v1/polls/{date}/close',
     method: 'POST',
     config: {
         auth: 'token',
-        tags: ['api', 'pool'],
-        description: 'Close pool by date',
-        notes: 'Close pool by date',
+        tags: ['api', 'poll'],
+        description: 'Close poll by date',
+        notes: 'Close poll by date',
         handler: (request, reply) => {
 
-            Controller.closePool(request)
-              .then((result) => reply(PoolViewModel.toViewModel(result)))
+            Controller.closePoll(request)
+              .then((result) => reply(PollViewModel.toViewModel(result)))
               .catch((err) => reply(err));
         },
         validate: {
             headers: AuthorizationViewModel.header,
-            params: PoolViewModel.params
+            params: PollViewModel.params
         },
         response: {
-            schema: PoolViewModel.response
+            schema: PollViewModel.response
         }
     }
 };
 
 const routes = [
-    getPool,
+    getPoll,
     vote,
-    closePool
+    closePoll
 ];
 
 module.exports = routes;

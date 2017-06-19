@@ -5,7 +5,7 @@ const Moment = require('moment');
 const Promise = require('bluebird');
 
 const UserRepository = require('../user/repository');
-const PoolRepository = require('../pool/repository');
+const PollRepository = require('../poll/repository');
 const OptionsRepository = require('../option/repository');
 
 const startMock = (request) => {
@@ -23,21 +23,21 @@ const startMock = (request) => {
 
             Promise.all([
                 Promise.mapSeries(optionNames, createOption),
-                PoolRepository.create(Moment().add(1, 'day').format('YYYYMMDD'))
+                PollRepository.create(Moment().add(1, 'day').format('YYYYMMDD'))
             ])
         )
-        .spread((options, pool) => {
+        .spread((options, poll) => {
 
-            pool.votes = [{
+            poll.votes = [{
                 optionId: options[1]._id,
                 optionName: options[1].name,
                 votes: 3
             }];
 
-            pool.winner = pool.votes[0];
-            pool.closed = true;
+            poll.winner = poll.votes[0];
+            poll.closed = true;
 
-            return PoolRepository.update(pool);
+            return PollRepository.update(poll);
         });
 };
 
