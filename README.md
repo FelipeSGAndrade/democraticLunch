@@ -36,7 +36,7 @@ I made this code in a rush, so there is a lot to improve. The first thing I woul
 
 Unfortunately, I didn't have time to make a front-end, so that is needed also.
 
-There is a lot of room for improvements, one I would like to make is the possibility of writing commentaries on polls, so that workers can convince people to vote on a particular restaurant.
+There is a lot of room for improvements, one I would like to make is the possibility of writing commentaries on polls, so that workers can convince people to vote on a particular restaurant. It would be nice for the worker being able to undo the vote and vote in another option while the poll is still open.
 
 Anyway, **hope you like it!**
 
