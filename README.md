@@ -20,7 +20,7 @@ After running the full test, a report about coverage can be found at **/reports/
 ## Usage
 There is an automatically generated swagger running on endpoint **/docs**. Also, there is a postman collection in the root directory that can be imported and contains examples.  
 
-The **/startMock** endpoint will insert some data on the lists used as database (as the instructions said it could be mocked).  
+The **/startMock** endpoint will insert some data on the lists used as database (as the instructions said it could be mocked). This adds a closed poll using tomorrow's date.  
 
 I didn't want to make a user registration page, so, if the user e-mail is not found, a new user is created.
 
