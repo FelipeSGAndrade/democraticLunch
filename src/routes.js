@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const PublicRoutes = require('./resources/public/routes');
 const UserRoutes = require('./resources/user/routes');
 const PollRoutes = require('./resources/poll/routes');
 const OptionRoutes = require('./resources/option/routes');
@@ -12,7 +13,8 @@ const getRoutes = () => {
         UserRoutes,
         PollRoutes,
         OptionRoutes,
-        MockRoutes
+        MockRoutes,
+        PublicRoutes
     );
 
     return routes;

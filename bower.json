@@ -1,0 +1,21 @@
+{
+  "name": "public",
+  "homepage": "https://github.com/FelipeSGAndrade/democraticLunch",
+  "authors": [
+    "Felipe Andrade <felipesgandrade@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.5",
+    "bootstrap": "^3.3.7"
+  }
+}

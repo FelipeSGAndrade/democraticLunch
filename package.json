@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "start-dev": "pm2-dev start app.js",
     "test": "lab -v -L -c -r console -o stdout -r html -o ./reports/coverage/index.html"
   },
   "author": "Felipe Andrade",
@@ -19,7 +20,7 @@
     "hapi-auth-jwt": "^4.0.0",
     "hapi-swaggered": "^2.7.0",
     "hapi-swaggered-ui": "^2.5.1",
-    "inert": "^4.2.0",
+    "inert": "^4.2.1",
     "joi": "^10.2.0",
     "joi-date-extensions": "^1.0.2",
     "jsonwebtoken": "^7.2.1",
