@@ -4,7 +4,7 @@ let environment = process.env.NODE_ENV || 'development';
 
 const server = {
     host: process.env.app_host || '0.0.0.0',
-    port: process.env.app_port || '8000'
+    port: process.env.app_port || '3000'
 };
 
 const database = {
